@@ -10,6 +10,13 @@ public class Enemy : NPC
     void Start()
     {
         Debug.Log("Enemy start");
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            print("null");
+        }
+
         navMeshAgent.speed = moveSpeed;
     }
 
