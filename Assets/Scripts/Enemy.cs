@@ -9,12 +9,10 @@ public class Enemy : NPC
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Enemy start");
-
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
-            print("null");
+            Debug.LogError("Player target is null");
         }
 
         navMeshAgent.speed = moveSpeed;

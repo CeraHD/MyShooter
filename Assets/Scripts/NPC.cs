@@ -7,8 +7,6 @@ public class NPC : BaseCharacter
 {
     public GameObject player;
     public NavMeshAgent navMeshAgent;
-
-
     public void MoveToPlayer()
     {
         Debug.Log("Move to player");

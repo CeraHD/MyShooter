@@ -8,38 +8,53 @@ public class EnemySpawner : MonoBehaviour
 
     private List<GameObject> spawnedEnemies;
     private List<Vector3> spawnPoints;
-    [Range(1, 20)] public uint numberOfEnemies;
+
+    [Range(1, 20)] public int numberOfEnemies;
+    private int numberOfSpawnedEnemies;
+
+    [Range(1, 5)] public float spawnInterval = 2;
 
     public GameObject enemyPrefab;
     public void Awake()
     {
         spawnedEnemies = new List<GameObject>();
         spawnPoints = new List<Vector3>();
-    }
-    void Start()
-    {
+
+        numberOfEnemies = 10;
+        numberOfSpawnedEnemies = 0;
+
         for (int i = 0; i < numberOfEnemies; i++)
         {
             spawnPoints.Add(GetRandomLocation());
         }
+    }
+    void Start()
+    {
+        StartCoroutine(SpawnCoroutine());
+    }
 
-        for(int i=0; i<numberOfEnemies; i++)
+    public IEnumerator SpawnCoroutine()
+    {
+        while (true)
         {
-            spawnedEnemies.Add(SpawnEnemy());
+            if (numberOfSpawnedEnemies >= numberOfEnemies)
+            {
+                yield break;
+            }
+
+            SpawnEnemy();
+
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
-    void Update()
+    public void SpawnEnemy()
     {
-        
-    }
+        int randomIndex = Random.Range(0, spawnPoints.Count);
+        Vector3 spawnPosition = spawnPoints[randomIndex];
 
-    public GameObject SpawnEnemy()
-    {
-        int randomIndex = Random.Range(0, spawnPoints.ToArray().Length);
-
-        GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPoints[randomIndex], new Quaternion(0f, 0f, 0f, 0f));
-
-        return spawnedEnemy;
+        GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        spawnedEnemies.Add(spawnedEnemy);
+        numberOfSpawnedEnemies++;
     }
 
     private Vector3 GetRandomLocation()
