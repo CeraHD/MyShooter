@@ -9,11 +9,9 @@ public class NPC : BaseCharacter
     public NavMeshAgent navMeshAgent;
     public void MoveToPlayer()
     {
-        Debug.Log("Move to player");
 
         if (player != null && navMeshAgent.isOnNavMesh)
         {
-            Debug.Log("Destination set");
             navMeshAgent.SetDestination(player.transform.position);
         }
     }

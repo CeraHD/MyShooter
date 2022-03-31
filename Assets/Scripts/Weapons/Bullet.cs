@@ -19,6 +19,16 @@ public class Bullet : MonoBehaviour
     {
         if(other != null)
         {
+            Debug.Log("Bullet collision");
+
+            GameObject collisionObj = other.gameObject;
+
+            if (collisionObj.tag.Equals("Enemy"))
+            {
+                collisionObj.GetComponent<Enemy>().TakeDamage(damage);
+                Debug.Log("Enemy taking damage");
+            }
+
             Destroy(gameObject);
         }   
     }
